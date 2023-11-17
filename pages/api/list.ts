@@ -1,6 +1,11 @@
 import { kv } from "@vercel/kv";
 import { NextApiRequest, NextApiResponse } from "next";
 
+interface UploadFile {
+  cid: string;
+  filePath: string;
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -17,8 +22,8 @@ export default async function handler(
     const usersKvKey = "users:" + parentEnsDomain;
     const kvAddressList = await kv.lrange(usersKvKey, 0, -1);
     for (const kvAddress of kvAddressList) {
-      const filesKvKey = 'upload_files:' + kvAddress;
-      const uploadFiles = await kv.lrange(filesKvKey, 0, -1);
+      const filesKvKey = "upload_files:" + kvAddress;
+      const uploadFiles: UploadFile[] = await kv.lrange(filesKvKey, 0, -1);
       for (const uploadFile of uploadFiles) {
         result.push({
           cid: uploadFile.cid,
