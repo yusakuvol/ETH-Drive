@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Toast } from "@ensdomains/thorin";
+import { Button, FileInput, Toast, VisuallyHidden } from "@ensdomains/thorin";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 
@@ -40,7 +40,14 @@ export default function Home() {
 
   const handleUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (!file) return;
+    if (!file) {
+      setToastState({
+        title: "No file selected!",
+        description: `Please select a file to upload`,
+        open: true,
+      });
+      return;
+    }
 
     const formData = new FormData();
     formData.append("image", file);
@@ -82,6 +89,29 @@ export default function Home() {
     <>
       <h2 className="text-base-black">Upload Image</h2>
       <input type="file" onChange={handleUpload} />
+      <FileInput maxSize={1} onChange={(file) => alert(file)}>
+        {(context) =>
+          context.name ? (
+            <div className="text-base-black flex items-center">
+              {context.name}
+              <div className="text-base-black" style={{ width: "48px" }}>
+                <Button
+                  shape="circle"
+                  size="small"
+                  onClick={() => context.reset}
+                >
+                  <VisuallyHidden>Remove</VisuallyHidden>
+                  {/* <CloseSVG /> */}
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <div className="text-base-black">
+              {context.droppable ? "Drop file" : "Attach file"}
+            </div>
+          )
+        }
+      </FileInput>
       <h2 className="text-base-black">List Image</h2>
       <div>
         {files.map((file) => (

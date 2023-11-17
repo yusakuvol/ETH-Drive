@@ -8,7 +8,7 @@ import { mainnet } from "wagmi/chains";
 
 const chains = [mainnet];
 
-const projectId = process.env.NEXT_PUBLIC_WC_PROJECT_ID || "";
+const projectId = "cafed2ff06f2248ce9df205b37f5a5a7";
 
 const metadata = {
   name: "Next Starter Template",
