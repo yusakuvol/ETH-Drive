@@ -3,7 +3,9 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 interface UploadFile {
   cid: string;
-  filePath: string;
+  uploadedAt: string;
+  uploadedBy: string;
+  fileName: string;
 }
 
 export default async function handler(
@@ -27,7 +29,9 @@ export default async function handler(
       for (const uploadFile of uploadFiles) {
         result.push({
           cid: uploadFile.cid,
-          filePath: uploadFile.filePath,
+          uploadedAt: uploadFile.uploadedAt,
+          uploadedBy: uploadFile.uploadedBy,
+          fileName: uploadFile.fileName,
         });
       }
     }

@@ -17,7 +17,9 @@ import { useAccount } from "wagmi";
 
 interface FileData {
   cid: string;
-  filePath: string;
+  uploadedBy: string;
+  uploadedAt: string;
+  fileName: string;
 }
 
 interface Toast {
@@ -79,7 +81,12 @@ export default function Home() {
     const dataParsed = await data.json();
 
     setFiles([
-      { cid: dataParsed.cid, filePath: dataParsed.filePath },
+      {
+        cid: dataParsed.cid,
+        uploadedBy: dataParsed.uploadedBy,
+        uploadedAt: dataParsed.uploadedAt,
+        fileName: dataParsed.fileName,
+      },
       ...files,
     ]);
 
@@ -91,6 +98,7 @@ export default function Home() {
       description: `path: ${dataParsed.filePath}`,
       open: true,
     });
+    handleClickCancelButton();
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -155,9 +163,6 @@ export default function Home() {
                     FileName
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    CID
-                  </th>
-                  <th scope="col" className="px-6 py-3">
                     UploadedBy
                   </th>
                   <th scope="col" className="px-6 py-3">
@@ -175,11 +180,17 @@ export default function Home() {
                       scope="row"
                       className="px-6 py-4 font-medium text-base-black whitespace-nowrap"
                     >
-                      {file.filePath}
+                      {file.fileName}
                     </th>
-                    <td className="px-6 py-4">
+                    <td scope="row" className="px-6 py-4">
+                      {file.uploadedBy}
+                    </td>
+                    <td scope="row" className="px-6 py-4">
+                      {file.uploadedAt}
+                    </td>
+                    <td scope="row" className="px-6 py-4">
                       <Button
-                        onClick={() => handleDownload(file.cid, file.filePath)}
+                        onClick={() => handleDownload(file.cid, file.fileName)}
                         width="28"
                         colorStyle="accentSecondary"
                       >

@@ -1,5 +1,6 @@
 import { publicKey } from "@/utils/keys/publicKey";
 import { kv } from "@vercel/kv";
+import { ethers } from "ethers";
 import { File, IncomingForm } from "formidable";
 import fs from "fs/promises";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -128,8 +129,13 @@ export default async function handler(
 
     // 一時ディレクトリを作成
     const originalFilename = file.originalFilename;
-    const uploadDir = "username";
-    const tempDir = path.join(__dirname, uploadDir);
+    const rpcUrl =
+      "https://mainnet.infura.io/v3/3d5f00f9a10e4c74ada2d617dd948857";
+    const provider = new ethers.JsonRpcProvider(rpcUrl);
+    const uploadDir = await provider.lookupAddress(address as string);
+    console.log(uploadDir);
+
+    const tempDir = path.join(__dirname, uploadDir as string);
     const tempFilePath = path.join(tempDir, originalFilename);
     await fs.mkdir(tempDir, { recursive: true });
 
@@ -144,9 +150,12 @@ export default async function handler(
 
     // Vercel KV に保存した値を書き込む
     const filesKvKey = "upload_files:" + address;
-    kv.lpush(filesKvKey, {
+    const uploadedAt = new Date().toISOString();
+    await kv.lpush(filesKvKey, {
       cid: cid.toString(),
-      filePath: uploadDir + "/" + originalFilename,
+      uploadedAt: uploadedAt,
+      uploadedBy: uploadDir,
+      fileName: originalFilename,
     });
 
     // 一時ディレクトリのクリーンアップ
@@ -154,7 +163,9 @@ export default async function handler(
 
     res.status(200).json({
       cid: cid.toString(),
-      filePath: uploadDir + "/" + originalFilename,
+      uploadedAt: uploadedAt,
+      uploadedBy: uploadDir,
+      fileName: originalFilename,
     });
   });
 }
