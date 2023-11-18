@@ -23,7 +23,7 @@ export default function Header() {
     <header className="w-full h-12 flex justify-between">
       <div className="flex space-x-2">
         <Link
-          href="/"
+          href="/home"
           className="flex justify-center items-center space-x-4 text-3xl font-bold hover:opacity-70"
         >
           <Image src="/logo.svg" alt="logo" width={70} height={70} />
