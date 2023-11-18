@@ -190,7 +190,7 @@ export default function Home() {
                     </td>
                     <td scope="row" className="px-6 py-4">
                       <Button
-                        onClick={() => handleDownload(file.cid, file.fileName)}
+                        onClick={() => handleDownload(file.cid, file.uploadedBy + '/' + file.fileName)}
                         width="28"
                         colorStyle="accentSecondary"
                       >
