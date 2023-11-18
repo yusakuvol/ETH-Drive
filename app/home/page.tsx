@@ -11,6 +11,7 @@ import {
   ScrollBox,
   Skeleton,
   Toast,
+  UpCircleSVG,
 } from "@ensdomains/thorin";
 import dayjs from "dayjs";
 import Image from "next/image";
@@ -150,7 +151,7 @@ export default function Home() {
           </p>
           <Button
             onClick={() => setDialogState(true)}
-            prefix={<PlusSVG />}
+            prefix={<UpCircleSVG />}
             width="48"
           >
             Upload
