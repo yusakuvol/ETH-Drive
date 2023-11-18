@@ -2,6 +2,9 @@ import { kv } from "@vercel/kv";
 import dayjs from "dayjs";
 import { NextApiRequest, NextApiResponse } from "next";
 
+import { authOptions } from "@/utils/authOption/authOption";
+import { getServerSession } from "next-auth/next";
+
 interface UploadFile {
   cid: string;
   uploadedAt: string;
@@ -14,6 +17,14 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
+    const session = await getServerSession(req, res, authOptions);
+    const walletAddress = session?.user?.name;
+
+    if (!walletAddress) {
+      res.status(401).send("Unauthorized");
+      return;
+    }
+
     if (req.method !== "GET") {
       res.status(405).send("Method Not Allowed");
       return;

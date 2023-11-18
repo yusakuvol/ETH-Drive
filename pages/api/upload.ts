@@ -1,9 +1,11 @@
+import { authOptions } from "@/utils/authOption/authOption";
 import { publicKey } from "@/utils/keys/publicKey";
 import { kv } from "@vercel/kv";
 import { ethers } from "ethers";
 import { File, IncomingForm } from "formidable";
 import fs from "fs/promises";
 import { NextApiRequest, NextApiResponse } from "next";
+import { getServerSession } from "next-auth/next";
 import * as openpgp from "openpgp";
 import path from "path";
 import { Web3Storage, getFilesFromPath } from "web3.storage";
@@ -20,7 +22,14 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { address } = req.query;
+  const session = await getServerSession(req, res, authOptions);
+  const walletAddress = session?.user?.name;
+
+  if (!walletAddress) {
+    res.status(401).send("Unauthorized");
+    return;
+  }
+
   const form = new IncomingForm();
 
   form.parse(req, async (err, _, files) => {
@@ -62,7 +71,7 @@ export default async function handler(
     const rpcUrl =
       "https://mainnet.infura.io/v3/3d5f00f9a10e4c74ada2d617dd948857";
     const provider = new ethers.JsonRpcProvider(rpcUrl);
-    const uploadDir = await provider.lookupAddress(address as string);
+    const uploadDir = await provider.lookupAddress(walletAddress);
     console.log(uploadDir);
 
     const tempDir = path.join(__dirname, uploadDir as string);
@@ -79,7 +88,7 @@ export default async function handler(
     const cid = await client.put(filesToUpload);
 
     // Vercel KV に保存した値を書き込む
-    const filesKvKey = "upload_files:" + address;
+    const filesKvKey = `upload_files:${walletAddress}`;
     const uploadedAt = new Date().toISOString();
     await kv.lpush(filesKvKey, {
       cid: cid.toString(),

@@ -1,10 +1,15 @@
+import { authOptions } from "@/utils/authOption/authOption";
 import { NextApiRequest, NextApiResponse } from "next";
+import { getServerSession } from "next-auth/next";
 import { Web3Storage } from "web3.storage";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  const session = await getServerSession(req, res, authOptions);
+  const walletAddress = session?.user?.name;
+
   const storageApiKey = process.env.WEB3_STORAGE_API_KEY || "";
   if (!storageApiKey) {
     res.status(500).json({ error: "Web3.Storage API key is not set." });
