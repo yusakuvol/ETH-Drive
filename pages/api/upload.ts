@@ -80,7 +80,7 @@ export default async function handler(
     const provider = new ethers.JsonRpcProvider(rpcUrl);
     const uploadDir = await provider.lookupAddress(walletAddress);
 
-    const tempDir = path.join(__dirname, uploadDir as string);
+    const tempDir = path.join("/tmp", uploadDir as string);
     const tempFilePath = path.join(tempDir, originalFilename);
     await fs.mkdir(tempDir, { recursive: true });
 
