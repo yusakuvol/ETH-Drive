@@ -1,10 +1,22 @@
 "use client";
 
 import useAuth from "@/app/_hooks/useAuth/useAuth";
-import { Button } from "@ensdomains/thorin";
+import { Button, Toast } from "@ensdomains/thorin";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Auth() {
   const { handleLogin, isConnected, isLoading } = useAuth();
+  const [isLoginError, setIsLoginError] = useState<boolean>(false);
+
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams?.get("callbackUrl");
+
+  useEffect(() => {
+    if (callbackUrl) {
+      setIsLoginError(true);
+    }
+  }, [callbackUrl]);
 
   return (
     <main className="flex flex-col grow items-center justify-center bg-base space-y-6">
@@ -28,6 +40,13 @@ export default function Auth() {
           {isConnected ? "Sign Message to Login" : "Please connect wallet"}
         </Button>
       </div>
+      <Toast
+        open={isLoginError}
+        title="Login Error"
+        description="Login failed. You may not be authorized"
+        variant="desktop"
+        onClose={() => setIsLoginError(false)}
+      ></Toast>
     </main>
   );
 }
