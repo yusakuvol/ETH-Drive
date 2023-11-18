@@ -11,6 +11,7 @@ import {
   Skeleton,
   Toast,
 } from "@ensdomains/thorin";
+import dayjs from "dayjs";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { useAccount } from "wagmi";
@@ -186,7 +187,7 @@ export default function Home() {
                       {file.uploadedBy}
                     </td>
                     <td scope="row" className="px-6 py-4">
-                      {file.uploadedAt}
+                      {dayjs(file.uploadedAt).format("DD/MM/YYYY HH:MM:ss")}
                     </td>
                     <td scope="row" className="px-6 py-4">
                       <Button
