@@ -6,6 +6,7 @@ import {
   Button,
   Card,
   Dialog,
+  DownCircleSVG,
   PlusSVG,
   ScrollBox,
   Skeleton,
@@ -197,8 +198,9 @@ export default function Home() {
                             file.uploadedBy + "/" + file.fileName
                           )
                         }
-                        width="28"
+                        width="36"
                         colorStyle="accentSecondary"
+                        prefix={<DownCircleSVG />}
                       >
                         Download
                       </Button>
