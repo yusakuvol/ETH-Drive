@@ -1,3 +1,4 @@
+import { kv } from "@vercel/kv";
 import { EnsResolver, ethers } from "ethers";
 
 const INFURA_ENDPOINT =
@@ -7,10 +8,7 @@ const provider = new ethers.JsonRpcProvider(INFURA_ENDPOINT);
 export class PublicKey {
   public async getPublicKeys(): Promise<string[]> {
     const publicKeys: string[] = [];
-    const addresses = [
-      "0x05942740eaF85Ac8C04642e0Edc11Ab1F36313b7",
-      "0x935F7efCe45DBD80fb880032d6E7ba98a0656cDE",
-    ];
+    const addresses = await this.getAddressesFromDomain();
 
     for (const address of addresses) {
       try {
@@ -22,6 +20,14 @@ export class PublicKey {
     }
 
     return publicKeys;
+  }
+
+  private async getAddressesFromDomain(): Promise<string[]> {
+    // Vercel KV から、同一ドメインユーザに紐づくアドレスを取得
+    const parentEnsDomain = await kv.hget("domain", "main");
+    const usersKvKey = "users:" + parentEnsDomain;
+    const addresses = await kv.lrange(usersKvKey, 0, -1);
+    return addresses;
   }
 
   private async getENSPublicKeyFromENS(address: string): Promise<string> {
