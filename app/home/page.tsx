@@ -44,6 +44,9 @@ export default function Home() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const { imageUrl } = useGetImageUrl({ file: imageFile });
+  const [downloading, setDownloading] = useState<{ [key: string]: boolean }>(
+    {}
+  );
 
   const fetchImages = async () => {
     try {
@@ -111,16 +114,23 @@ export default function Home() {
   };
 
   const handleDownload = async (cid: string, filePath: string) => {
-    const res = await fetch(`/api/download?cid=${cid}&filePath=${filePath}`);
-    const blob = await res.blob();
+    setDownloading((prev) => ({ ...prev, [cid]: true }));
+    try {
+      const res = await fetch(`/api/download?cid=${cid}&filePath=${filePath}`);
+      const blob = await res.blob();
 
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filePath;
-    document.body.appendChild(a);
-    a.click();
-    window.URL.revokeObjectURL(url);
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filePath;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      window.alert("Error downloading file");
+    } finally {
+      setDownloading((prev) => ({ ...prev, [cid]: false }));
+    }
   };
 
   const handleClickCancelButton = () => {
@@ -198,11 +208,13 @@ export default function Home() {
                             file.uploadedBy + "/" + file.fileName
                           )
                         }
-                        width="36"
+                        width="40"
                         colorStyle="accentSecondary"
                         prefix={<DownCircleSVG />}
+                        disabled={downloading[file.cid]}
+                        loading={downloading[file.cid]}
                       >
-                        Download
+                        {downloading[file.cid] ? "Downloading" : "Download"}
                       </Button>
                     </td>
                   </tr>
