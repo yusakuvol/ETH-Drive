@@ -27,7 +27,7 @@ export default function Header() {
           className="flex justify-center items-center space-x-4 text-3xl font-bold hover:opacity-70"
         >
           <Image src="/logo.svg" alt="logo" width={70} height={70} />
-          <span className="text-base-blue">ETH Storage</span>
+          <span className="text-base-blue">ETH Drive</span>
         </Link>
       </div>
       <nav>
