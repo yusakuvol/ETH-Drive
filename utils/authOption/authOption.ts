@@ -65,7 +65,7 @@ export const authOptions: AuthOptions = {
             id: siwe.address,
           };
         } catch (error) {
-          console.log(error);
+          console.error(error);
           return null;
         }
       },

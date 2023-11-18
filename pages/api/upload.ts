@@ -72,7 +72,6 @@ export default async function handler(
       "https://mainnet.infura.io/v3/3d5f00f9a10e4c74ada2d617dd948857";
     const provider = new ethers.JsonRpcProvider(rpcUrl);
     const uploadDir = await provider.lookupAddress(walletAddress);
-    console.log(uploadDir);
 
     const tempDir = path.join(__dirname, uploadDir as string);
     const tempFilePath = path.join(tempDir, originalFilename);
