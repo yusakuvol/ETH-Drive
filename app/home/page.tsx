@@ -95,7 +95,7 @@ export default function Home() {
 
     setToastState({
       title: "Uploaded image successfully!",
-      description: `path: ${dataParsed.filePath}`,
+      description: `file: ${dataParsed.fileName}`,
       open: true,
     });
     handleClickCancelButton();
