@@ -1,4 +1,5 @@
 import { kv } from "@vercel/kv";
+import dayjs from "dayjs";
 import { NextApiRequest, NextApiResponse } from "next";
 
 interface UploadFile {
@@ -35,6 +36,10 @@ export default async function handler(
         });
       }
     }
+
+    result.sort((a, b) => {
+      return dayjs(b.uploadedAt).diff(dayjs(a.uploadedAt));
+    });
 
     res.status(200).json(result);
   } catch (error) {
