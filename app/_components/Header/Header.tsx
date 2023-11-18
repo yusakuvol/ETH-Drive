@@ -10,7 +10,7 @@ import Link from "next/link";
 import { useDisconnect } from "wagmi";
 
 export default function Header() {
-  const { isConnected, address, ensName, disconnect } = useAuth();
+  const { isConnected, address, ensName } = useAuth();
   const { open } = useWeb3Modal();
   const { disconnectAsync } = useDisconnect();
 
