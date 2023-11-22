@@ -2,7 +2,7 @@
 
 ## Project Introduction
 
-[presentation](https://docs.google.com/presentation/d/1sG3eO6FlGcO1wqeUr6yUVyhTrKzwDPA8qJbDeXs8W2Q/edit?usp=sharing)
+[What is ETH DRIVE ?](https://docs.google.com/presentation/d/1qCuNTE-_Er7BI6KN9kEKdaR8Oqf1DHgqcR1yM9QLbQU/edit?usp=sharing)
 
 ## Project Description
 
