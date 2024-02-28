@@ -1,6 +1,6 @@
 "use client";
 
-import useAuth from "@/app/_hooks/useAuth/useAuth";
+import useAuth from "@/app/hooks/useAuth/useAuth";
 import { Button, Toast } from "@ensdomains/thorin";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";

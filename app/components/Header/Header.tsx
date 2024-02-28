@@ -1,6 +1,6 @@
 "use client";
 
-import useAuth from "@/app/_hooks/useAuth/useAuth";
+import useAuth from "@/app/hooks/useAuth/useAuth";
 import "@/styles/globals.css";
 import { Button, ExitSVG, Profile } from "@ensdomains/thorin";
 import { useWeb3Modal } from "@web3modal/wagmi/react";

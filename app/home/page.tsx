@@ -1,7 +1,7 @@
 "use client";
 
-import InputImage from "@/app/home/_components/InputImage/InputImage";
-import { useGetImageUrl } from "@/app/home/_hooks/useGetImageUrl/useGetImageUrl";
+import InputImage from "@/app/home/components/InputImage/InputImage";
+import { useGetImageUrl } from "@/app/home/hooks/useGetImageUrl/useGetImageUrl";
 import {
   Button,
   Card,

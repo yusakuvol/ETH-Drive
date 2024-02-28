@@ -1,8 +1,8 @@
 "use client";
 
-import Header from "@/app/_components/Header/Header";
-import NextAuthProvider from "@/app/_components/NextAuthProvider/NextAuthProvider";
-import WagmiProvider from "@/app/_components/WagmiProvider/WagmiProvider";
+import Header from "@/app/components/Header/Header";
+import NextAuthProvider from "@/app/components/NextAuthProvider/NextAuthProvider";
+import WagmiProvider from "@/app/components/WagmiProvider/WagmiProvider";
 import "@/styles/globals.css";
 import { ThorinGlobalStyles, lightTheme } from "@ensdomains/thorin";
 import { ThemeProvider } from "styled-components";
