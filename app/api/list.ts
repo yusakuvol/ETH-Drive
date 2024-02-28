@@ -12,10 +12,7 @@ interface UploadFile {
   fileName: string;
 }
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export async function GET(req: NextApiRequest, res: NextApiResponse) {
   try {
     const session = await getServerSession(req, res, authOptions);
     const walletAddress = session?.user?.name;
@@ -25,10 +22,6 @@ export default async function handler(
       return;
     }
 
-    if (req.method !== "GET") {
-      res.status(405).send("Method Not Allowed");
-      return;
-    }
     const result = [];
 
     // Vercel KV から、同一ドメインユーザがアップロード済のファイルを取得

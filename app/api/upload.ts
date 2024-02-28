@@ -18,17 +18,7 @@ export const config = {
   },
 };
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  // POSTリクエスト以外は許可しない
-  if (req.method !== 'POST') {
-    res.setHeader('Allow', ['POST']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
-    return;
-  }
-
+export async function POST(req: NextApiRequest, res: NextApiResponse) {
   const session = await getServerSession(req, res, authOptions);
   const walletAddress = session?.user?.name;
 
